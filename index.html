@@ -1,0 +1,116 @@
+<!-- File: index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>codegasf — Tech, Gaming & Daily Insights</title>
+
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="wrap">
+    <header class="fade-in">
+      <div class="brand">
+        <div class="logo" aria-hidden>
+          <img src="assets/logo.png" alt="codegasf">
+        </div>
+        <div>
+          <h1>codegasf</h1>
+          <div class="tag">Tech • Gaming • Daily Insights</div>
+        </div>
+      </div>
+      <nav class="top-actions">
+        <a class="ghost" href="https://github.com/codegasf" target="_blank">GitHub</a>
+        <a class="ghost" href="https://youtube.com/@codegasf" target="_blank">YouTube</a> <!-- Update with your channel -->
+        <a class="ghost" href="https://instagram.com/codegasf" target="_blank">Instagram</a>
+        <a class="ghost" href="https://twitter.com/codegasf" target="_blank">X</a>
+        <a class="ghost" href="https://linkedin.com/company/codegasf" target="_blank">LinkedIn</a>
+      </nav>
+    </header>
+
+    <div class="search-container">
+      <div class="search">
+        <input id="site-search" placeholder="Search posts, projects, videos or tags (e.g., devops, gaming, terraform) — Enter to search" />
+        <div class="search-hint small">Esc to clear</div>
+      </div>
+    </div>
+
+    <div class="hero fade-in">
+      <div class="hero-content">
+        <h2>Welcome to codegasf</h2>
+        <p>Explore tutorials, code snippets, gaming highlights, and daily tech tips. Learn, build, and level up — all in one hub.</p>
+      </div>
+      <div class="hero-animation"></div>
+    </div>
+
+    <div class="layout single-column">
+      <!-- MAIN LEFT: Tabs for Posts, Projects, Videos -->
+      <main>
+        <section class="card fade-in">
+          <div id="tab-buttons">
+            <button class="tab-btn active" data-tab="posts">Recent Posts</button>
+            <button class="tab-btn" data-tab="projects">Projects</button>
+            <button class="tab-btn" data-tab="videos">Videos</button>
+          </div>
+          <div id="posts-tab" class="tab-content active">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; min-width: 0;">
+              <h2 style="margin: 0;">Snippets & Tutorials</h2>
+              <div class="posts-count" id="posts-count">—</div>
+            </div>
+            <div class="controls">
+              <div id="tag-chips" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+            </div>
+            <div class="post-list" id="post-list"><!-- rendered by JS --></div>
+          </div>
+          <div id="projects-tab" class="tab-content">
+            <h2 style="margin: 0 0 16px 0;">Featured Projects</h2>
+            <div id="projects-list"><!-- rendered by JS --></div>
+            <div class="social-feeds">
+              <h3 style="margin: 0 0 16px 0; font-size: 18px;">Recent GitHub Activity</h3>
+              <div id="github-feeds"><!-- rendered by JS --></div>
+            </div>
+          </div>
+          <div id="videos-tab" class="tab-content">
+            <h2 style="margin: 0 0 16px 0;">Latest Videos</h2>
+            <div id="youtube-list"><!-- rendered by JS --></div>
+            <div class="social-feeds">
+              <h3 style="margin: 20px 0 16px 0; font-size: 18px;">Recent X Posts</h3>
+              <div id="x-feeds"><!-- rendered by JS --></div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <!-- RIGHT SIDE: Contact & Social -->
+      <aside>
+        <div class="side-section">
+          <div class="card fade-in">
+            <h3 style="margin: 0 0 16px 0;">Get in Touch</h3>
+            <form id="contact-form" action="" method="POST">
+              <input name="name" placeholder="Your name" required style="margin-bottom: 12px;">
+              <input name="email" type="email" placeholder="Your email" required style="margin-bottom: 12px;">
+              <textarea name="message" placeholder="Your message — ideas, collabs, or feedback?" required style="margin-bottom: 16px;"></textarea>
+              <div style="display: flex; gap: 12px;">
+                <button type="submit" class="btn" style="flex: 1;">Send Message</button>
+                <button type="button" id="copy-email" class="mini-btn">Copy Email</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <div>© <span id="year"></span> codegasf</div>
+      <div class="small" style="margin-top: 8px;">Powered by GitHub Pages • Static & lightning-fast</div>
+    </footer>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

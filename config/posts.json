@@ -1,0 +1,32 @@
+[
+    {
+      "id": 1,
+      "title": "Building a Slack Bot for Kubernetes",
+      "excerpt": "Create a Slack slash-command bot to manage K8s pods using Flask and kubectl. Perfect for DevOps teams.",
+      "tags": ["devops", "slack", "kubernetes"],
+      "date": "2025-10-10",
+      "code": "# Verify Slack signature in Flask\nfrom flask import Flask, request\nimport hmac, hashlib, time\n\napp = Flask(__name__)\nSLACK_SIGNING_SECRET = 'your-secret'\n\ndef verify_slack(req):\n    timestamp = req.headers.get('X-Slack-Request-Timestamp', '0')\n    if abs(time.time() - int(timestamp)) > 300: return False\n    sig_basestring = f\"v0:{timestamp}:{req.get_data(as_text=True)}\"\n    my_sig = 'v0=' + hmac.new(SLACK_SIGNING_SECRET.encode(), sig_basestring.encode(), hashlib.sha256).hexdigest()\n    return hmac.compare_digest(my_sig, req.headers.get('X-Slack-Signature', ''))\n\n@app.route('/slack/events', methods=['POST'])\ndef slack_events():\n    if not verify_slack(request): return 'Invalid', 403\n    # Handle your logic here\n    return 'OK'",
+      "lang": "python",
+      "link": "#"
+    },
+    {
+      "id": 2,
+      "title": "Terraform Best Practices for Beginners",
+      "excerpt": "Organize your infra code with modules, CI/CD, and a clean repo structure.",
+      "tags": ["terraform", "infra", "aws"],
+      "date": "2025-09-25",
+      "code": "# modules/network/main.tf\nresource \"aws_vpc\" \"main\" {\n  cidr_block = var.cidr_block\n  tags = { Name = var.name }\n}\n\nvariable \"cidr_block\" { type = string }\nvariable \"name\" { type = string }",
+      "lang": "hcl",
+      "link": "#"
+    },
+    {
+      "id": 3,
+      "title": "Vanilla JS Game Loop Essentials",
+      "excerpt": "Master the basics of game loops, input handling, and rendering in pure JavaScript.",
+      "tags": ["gaming", "javascript", "gamedev"],
+      "date": "2025-09-15",
+      "code": "const canvas = document.getElementById('gameCanvas');\nconst ctx = canvas.getContext('2d');\nlet lastTime = performance.now();\n\nfunction gameLoop(currentTime) {\n  const deltaTime = (currentTime - lastTime) / 1000;\n  update(deltaTime);  // Update game state\n  render(ctx);        // Render frame\n  lastTime = currentTime;\n  requestAnimationFrame(gameLoop);\n}\n\nrequestAnimationFrame(gameLoop);",
+      "lang": "javascript",
+      "link": "#"
+    }
+  ]
