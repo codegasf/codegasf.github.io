@@ -117,8 +117,15 @@
     // Bind Formspree action from config if present
     try {
       const form = document.getElementById('contact-form');
-      if (form && CONFIG.formspreeId) {
-        form.action = `https://formspree.io/f/${CONFIG.formspreeId}`;
+      if (form) {
+        if (CONFIG.formspreeId) {
+          form.action = `https://formspree.io/f/${CONFIG.formspreeId}`;
+        } else {
+          const dataId = form.getAttribute('data-formspree');
+          if (dataId) {
+            form.action = `https://formspree.io/f/${dataId}`;
+          }
+        }
       }
     } catch (_) {}
     posts = await loadPosts();
@@ -186,6 +193,78 @@
         searchInput.select();
       }
     });
+
+    // Contact form AJAX submit (prevent Formspree redirect)
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+      // Create/ensure a status area at the end of the form
+      let statusEl = contactForm.querySelector('.form-status');
+      if (!statusEl) {
+        statusEl = document.createElement('div');
+        statusEl.className = 'form-status small';
+        statusEl.style.marginTop = '10px';
+        statusEl.style.minHeight = '18px';
+        statusEl.style.color = 'var(--muted)';
+        contactForm.appendChild(statusEl);
+      }
+
+      contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        // Determine endpoint
+        const endpoint = (function() {
+          if (CONFIG.formspreeId) return `https://formspree.io/f/${CONFIG.formspreeId}`;
+          const dataId = contactForm.getAttribute('data-formspree');
+          if (dataId) return `https://formspree.io/f/${dataId}`;
+          const action = (contactForm.getAttribute('action') || '').trim();
+          return action;
+        })();
+        if (!endpoint) {
+          statusEl.textContent = 'Form endpoint is not configured.';
+          statusEl.style.color = '#ff7777';
+          return;
+        }
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn ? submitBtn.textContent : '';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending…';
+        }
+        statusEl.textContent = '';
+        statusEl.style.color = 'var(--muted)';
+        try {
+          const formData = new FormData(contactForm);
+          const resp = await fetch(endpoint, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+          if (resp.ok) {
+            contactForm.reset();
+            statusEl.textContent = 'Thanks! Your message has been sent successfully.';
+            statusEl.style.color = '#9be39b';
+          } else {
+            // Try to read error from JSON
+            let errMsg = 'Submission failed. Please try again later.';
+            try {
+              const data = await resp.json();
+              if (data && data.errors && data.errors.length) {
+                errMsg = data.errors.map(x => x.message).join(' ');
+              }
+            } catch (_) {}
+            statusEl.textContent = errMsg;
+            statusEl.style.color = '#ff9999';
+          }
+        } catch (err) {
+          statusEl.textContent = 'Network error. Please check your connection and try again.';
+          statusEl.style.color = '#ff9999';
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+          }
+        }
+      });
+    }
   }
   
   /* Posts Rendering */
