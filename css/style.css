@@ -19,20 +19,14 @@
 [data-theme="light"] {
     --bg: #f8fafc;
     --card: #ffffff;
-    --muted: #64748b;
+    --muted: #475569; /* Better contrast for muted text */
     --accent1: #0077cc;
     --accent2: #8b5cf6;
     --accent3: #10b981;
     --glass: rgba(0, 0, 0, 0.03);
     --glass-2: rgba(0, 0, 0, 0.01);
     --border: rgba(0, 0, 0, 0.1);
-    --text: #1e293b;
-}
-
-/* Enhanced light theme text contrast */
-[data-theme="light"] {
     --text: #0f172a; /* Darker text for better readability */
-    --muted: #475569; /* Better contrast for muted text */
 }
 
 * { box-sizing: border-box; }
@@ -73,6 +67,19 @@ body::before {
         radial-gradient(circle at 30% 70%, rgba(99, 102, 241, 0.03) 0%, transparent 50%);
 }
 
+/* Add dark gradient at bottom right for light theme transition effect */
+[data-theme="light"] body::after {
+    content: '';
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 40%;
+    height: 40%;
+    background: radial-gradient(circle at bottom right, rgba(15, 23, 42, 0.1) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: -1;
+    transition: opacity 0.5s ease;
+}
 @keyframes bgShift {
     0% { transform: translate(0, 0) rotate(0deg); }
     100% { transform: translate(10px, 10px) rotate(1deg); }
