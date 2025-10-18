@@ -29,6 +29,12 @@
     --text: #1e293b;
 }
 
+/* Enhanced light theme text contrast */
+[data-theme="light"] {
+    --text: #0f172a; /* Darker text for better readability */
+    --muted: #475569; /* Better contrast for muted text */
+}
+
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; overflow-x: hidden; }
 body {
@@ -61,9 +67,10 @@ body::before {
 
 [data-theme="light"] body::before {
     background-image: 
-        radial-gradient(circle at 20% 80%, rgba(0, 119, 204, 0.08) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
+        radial-gradient(circle at 10% 20%, rgba(0, 119, 204, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 70% 30%, rgba(16, 185, 129, 0.04) 0%, transparent 50%),
+        radial-gradient(circle at 30% 70%, rgba(99, 102, 241, 0.03) 0%, transparent 50%);
 }
 
 @keyframes bgShift {
@@ -340,8 +347,45 @@ h1 {
     transform: translateX(5px);
 }
 .post .meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.post h3 { margin: 0; font-size: 20px; font-weight: 600; }
-.post p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.6; }
+.post h3 { 
+    margin: 0; 
+    font-size: 20px; 
+    font-weight: 600; 
+    color: var(--text); /* Add this line */
+}
+.post p { 
+    margin: 0; 
+    color: var(--muted); 
+    font-size: 15px; 
+    line-height: 1.6; 
+}
+
+/* Better contrast for light theme */
+[data-theme="light"] .post h3 {
+    color: #1a1a1a;
+}
+
+[data-theme="light"] .post p {
+    color: #4a5568;
+}
+
+[data-theme="light"] .small {
+    color: #64748b;
+}
+
+[data-theme="light"] .project-item strong,
+[data-theme="light"] .feed-item strong {
+    color: #1a1a1a;
+}
+
+[data-theme="light"] .project-item .small,
+[data-theme="light"] .feed-item .small {
+    color: #4a5568;
+}
+
+[data-theme="light"] #tab-buttons button {
+    color: #64748b;
+}
 
 /* Fix code block overflow */
 pre {
@@ -423,6 +467,17 @@ pre::-webkit-scrollbar-thumb {
     transition: var(--transition);
     margin-bottom: 12px;
 }
+
+/* Add better text contrast for project items in light theme */
+[data-theme="light"] .project-item strong,
+[data-theme="light"] .feed-item strong {
+    color: #1a1a1a;
+}
+
+[data-theme="light"] .project-item .small,
+[data-theme="light"] .feed-item .small {
+    color: #4a5568;
+}
 .project-item:hover, .feed-item:hover { 
     background: var(--glass); 
     transform: translateX(5px);
@@ -487,6 +542,16 @@ footer {
     transition: var(--transition);
     white-space: nowrap;
     flex-shrink: 0;
+}
+
+/* Better tab button colors for light theme */
+[data-theme="light"] #tab-buttons button {
+    color: #64748b;
+}
+
+[data-theme="light"] #tab-buttons button.active { 
+    color: var(--accent1); 
+    border-bottom-color: var(--accent1); 
 }
 #tab-buttons button.active { 
     color: var(--accent1); 
