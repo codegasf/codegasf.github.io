@@ -1,5 +1,5 @@
 /* File: js/script.js */
-  async function loadConfig() {
+async function loadConfig() {
     try {
       const resp = await fetch('config/config.json');
       return await resp.json();
@@ -99,7 +99,7 @@
      =========================== */
   let CONFIG = {};
   let posts = [];
-  let allowedTags = null; // from config/tags.json if present
+  let allowedTags = null;
   let activeTag = null;
   let activeTab = 'posts';
   const layoutEl = document.querySelector('.layout');
@@ -110,10 +110,46 @@
   const searchInput = document.getElementById('site-search');
   const yearEl = document.getElementById('year');
   
+  /* Theme toggle functionality */
+  function initThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = themeToggle.querySelector('.theme-icon');
+    
+    // Check for saved theme or prefer-color-scheme
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem('theme');
+    
+    const currentTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('data-theme', currentTheme);
+    updateThemeIcon(currentTheme);
+    
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeIcon(newTheme);
+        
+        // Add animation
+        themeToggle.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            themeToggle.style.transform = 'scale(1)';
+        }, 150);
+    });
+    
+    function updateThemeIcon(theme) {
+        themeIcon.textContent = theme === 'dark' ? '🌙' : '☀️';
+    }
+  }
+  
   /* Init */
   async function init() {
     yearEl.textContent = new Date().getFullYear();
     CONFIG = await loadConfig();
+    // Initialize theme toggle
+    initThemeToggle();
+    
     // Bind Formspree action from config if present
     try {
       const form = document.getElementById('contact-form');
@@ -142,7 +178,7 @@
     fetchProjects();
     renderYouTube();
     fetchXFeeds();
-    fetchGitHubFeeds(); // Recent commits or events
+    fetchGitHubFeeds();
   }
   
   // Run init
@@ -383,7 +419,7 @@
         item.style.animationDelay = `${i * 0.1}s`;
         item.innerHTML = `
           <div style="display: flex; flex-direction: column; flex: 1;">
-            <strong style="font-size: 16px; color: white;">${escapeHtml(r.name)}</strong>
+            <strong style="font-size: 16px; color: var(--text);">${escapeHtml(r.name)}</strong>
             <span class="small" style="color: var(--muted);">${escapeHtml(r.description || 'No description')}</span>
           </div>
           <div class="small" style="text-align: right; color: var(--muted); white-space: nowrap;">
@@ -452,7 +488,12 @@
           container.className = 'video-embed fade-in';
           container.style.animationDelay = `${i * 0.1}s`;
           container.innerHTML = `
-            <iframe src="https://www.youtube.com/embed/${vidId}?rel=0" loading="lazy" allowfullscreen title="${title}"></iframe>
+            <iframe 
+                src="https://www.youtube.com/embed/${vidId}?rel=0" 
+                loading="lazy"
+                allowfullscreen 
+                title="${title}"
+            ></iframe>
             <div class="small" style="margin-top: 12px; text-align: center; font-weight: 500;">${title}</div>
             <div class="small" style="text-align: center; opacity: 0.7;">${published}</div>
           `;
@@ -471,7 +512,12 @@
       const container = document.createElement('div');
       container.className = 'video-embed fade-in';
       container.innerHTML = `
-        <iframe src="https://www.youtube.com/embed/videoseries?list=${uploadsId}" loading="lazy" allowfullscreen title="Latest uploads"></iframe>
+        <iframe 
+            src="https://www.youtube.com/embed/videoseries?list=${uploadsId}" 
+            loading="lazy" 
+            allowfullscreen 
+            title="Latest uploads"
+        ></iframe>
         <div class="small" style="margin-top: 12px; text-align: center; font-weight: 500;">Latest uploads</div>
         <div class="small" style="text-align: center; opacity: 0.7;">Embedded playlist (no API key)</div>
       `;
