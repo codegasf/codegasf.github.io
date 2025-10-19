@@ -1,109 +1,120 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>codegasf - Tech • Gaming • Daily Insights</title>
-    <link rel="stylesheet" href="styles/style.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💻</text></svg>">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>codegasf — Tech, Gaming & Daily Insights</title>
+
+  <!-- Fonts & icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Add favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
 </head>
 <body>
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">codegasf</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#snippets">Snippets</a></li>
-                <li><a href="#gaming">Gaming</a></li>
-                <li><a href="#insights">Insights</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <button id="theme-toggle" class="theme-toggle">🌙</button>
-            <div class="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
+  <div class="wrap">
+    <header class="fade-in">
+      <div class="brand">
+        <div class="logo" aria-hidden>
+          <img src="assets/logo.png" alt="codegasf">
+        </div>
+        <div>
+          <h1>codegasf</h1>
+          <div class="tag">Tech • Gaming • Daily Insights</div>
+        </div>
+      </div>
+      <nav class="top-actions">
+        <button class="ghost theme-toggle" id="theme-toggle" aria-label="Toggle dark/light mode">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <a class="ghost" href="https://github.com/codegasf" target="_blank">GitHub</a>
+        <a class="ghost" href="https://youtube.com/@codegasf" target="_blank">YouTube</a>
+        <a class="ghost" href="https://instagram.com/codegasf" target="_blank">Instagram</a>
+        <a class="ghost" href="https://twitter.com/codegasf" target="_blank">X</a>
+        <a class="ghost" href="https://linkedin.com/company/codegasf" target="_blank">LinkedIn</a>
+      </nav>
     </header>
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Welcome to codegasf</h1>
-            <p>Explore tutorials, code snippets, gaming highlights, and daily tech tips. Learn, build, and level up — all in one hub.</p>
-            <a href="https://youtube.com/@codegasf" class="cta-btn">Subscribe on YouTube</a>
-        </div>
-        <div class="hero-bg"></div>
-    </section>
+    <div class="search-container">
+      <div class="search">
+        <input id="site-search" placeholder="Search posts, projects, videos or tags (e.g., devops, gaming, terraform) — Enter to search" />
+        <div class="search-hint small">Esc to clear</div>
+      </div>
+    </div>
 
-    <section id="snippets" class="section">
-        <h2>Snippets & Tutorials</h2>
-        <div class="grid">
-            <div class="card">
-                <h3>Python Quick Sort</h3>
-                <pre class="code-block"><code>def quicksort(arr):
-    if len(arr) <= 1:
-        return arr
-    pivot = arr[len(arr) // 2]
-    left = [x for x in arr if x < pivot]
-    middle = [x for x in arr if x == pivot]
-    right = [x for x in arr if x > pivot]
-    return quicksort(left) + middle + quicksort(right)
+    <div class="hero fade-in">
+      <div class="hero-content">
+        <h2>Welcome to codegasf</h2>
+        <p>Explore tutorials, code snippets, gaming highlights, and daily tech tips. Learn, build, and level up — all in one hub.</p>
+      </div>
+      <div class="hero-animation"></div>
+      <div class="hero-particles"></div>
+    </div>
 
-# Example usage
-print(quicksort([3,6,8,10,1,2,1]))</code></pre>
+    <div class="layout single-column">
+      <!-- MAIN LEFT: Tabs for Posts, Projects, Videos -->
+      <main>
+        <section class="card fade-in">
+          <div id="tab-buttons">
+            <button class="tab-btn active" data-tab="posts">Recent Posts</button>
+            <button class="tab-btn" data-tab="projects">Projects</button>
+            <button class="tab-btn" data-tab="videos">Videos</button>
+          </div>
+          <div id="posts-tab" class="tab-content active">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; min-width: 0;">
+              <h2 style="margin: 0;">Snippets & Tutorials</h2>
+              <div class="posts-count" id="posts-count">—</div>
             </div>
-            <div class="card">
-                <h3>CSS Flexbox Layout</h3>
-                <pre class="code-block"><code>.container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.item {
-    flex: 1;
-    margin: 0 10px;
-}</code></pre>
+            <div class="controls">
+              <div id="tag-chips" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
             </div>
-            <!-- Add more cards as needed -->
-        </div>
-    </section>
+            <div class="post-list" id="post-list"><!-- rendered by JS --></div>
+          </div>
+          <div id="projects-tab" class="tab-content">
+            <h2 style="margin: 0 0 16px 0;">Featured Projects</h2>
+            <div id="projects-list"><!-- rendered by JS --></div>
+            <div class="social-feeds">
+              <h3 style="margin: 0 0 16px 0; font-size: 18px;">Recent GitHub Activity</h3>
+              <div id="github-feeds"><!-- rendered by JS --></div>
+            </div>
+          </div>
+          <div id="videos-tab" class="tab-content">
+            <h2 style="margin: 0 0 16px 0;">Latest Videos</h2>
+            <div id="youtube-list"><!-- rendered by JS --></div>
+            <div class="social-feeds">
+              <h3 style="margin: 20px 0 16px 0; font-size: 18px;">Recent X Posts</h3>
+              <div id="x-feeds"><!-- rendered by JS --></div>
+            </div>
+          </div>
+        </section>
+      </main>
 
-    <section id="gaming" class="section">
-        <h2>Gaming Highlights</h2>
-        <div class="video-embed">
-            <iframe src="https://www.youtube.com/embed/YOUR_LATEST_VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+      <!-- RIGHT SIDE: Contact & Social -->
+      <aside>
+        <div class="side-section">
+          <div class="card fade-in">
+            <h3 style="margin: 0 0 16px 0;">Get in Touch</h3>
+            <form id="contact-form" action="" method="POST" data-formspree="xpwybrdd">
+              <input name="name" placeholder="Your name" required style="margin-bottom: 12px;">
+              <input name="email" type="email" placeholder="Your email" required style="margin-bottom: 12px;">
+              <textarea name="message" placeholder="Your message — ideas, collabs, or feedback?" required style="margin-bottom: 16px;"></textarea>
+              <div style="display: flex; gap: 12px;">
+                <button type="submit" class="btn" style="flex: 1;">Send Message</button>
+                <button type="button" id="copy-email" class="mini-btn">Copy Email</button>
+              </div>
+              <div class="form-status small"></div>
+            </form>
+          </div>
         </div>
-        <p>Check out my latest gameplay and tech-gaming crossovers!</p>
-    </section>
-
-    <section id="insights" class="section">
-        <h2>Daily Insights</h2>
-        <div class="grid">
-            <article class="insight-card">
-                <h3>Why AI is Changing Gaming</h3>
-                <p>Quick thoughts on procedural generation...</p>
-            </article>
-            <!-- Add more -->
-        </div>
-    </section>
-
-    <section id="contact" class="section">
-        <h2>Get in Touch</h2>
-        <div class="social-links">
-            <a href="https://youtube.com/@codegasf">YouTube</a>
-            <a href="https://instagram.com/codegasf">Instagram</a>
-            <a href="https://twitter.com/codegasf">X (Twitter)</a>
-            <a href="https://github.com/codegasf">GitHub</a>
-            <a href="https://threads.net/@codegasf">Threads</a>
-        </div>
-    </section>
+      </aside>
+    </div>
 
     <footer>
-        <p>&copy; 2025 codegasf. Built with ❤️ for tech lovers.</p>
+      <div>© <span id="year"></span> codegasf</div>
+      <div class="small" style="margin-top: 8px;">Powered by GitHub Pages • Static & lightning-fast</div>
     </footer>
+  </div>
 
-    <script src="scripts/script.js"></script>
+  <script src="js/script.js"></script>
 </body>
 </html>
