@@ -209,6 +209,50 @@ h1 {
   padding-right: 10px;
 }
 
+/* Enhanced Glassmorphism Button */
+#load-more-btn {
+  background: rgba(255, 255, 255, 0.05); /* Very light glass */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: var(--text-main);
+  padding: 12px 30px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  text-transform: uppercase;
+  margin-top: 20px;
+}
+
+/* Hover State: The "Glow" effect */
+#load-more-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--primary);
+  box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+  transform: translateY(-5px) scale(1.02);
+  color: var(--primary);
+}
+
+/* Add an icon indicator via CSS */
+#load-more-btn::after {
+  content: '↘';
+  font-size: 1.1rem;
+  transition: transform 0.3s ease;
+}
+
+#load-more-btn.active::after {
+  transform: rotate(180deg);
+  content: '↖';
+}
+
 /* Custom Scrollbar for the Terminal */
 .terminal-grid::-webkit-scrollbar { width: 6px; }
 .terminal-grid::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }

@@ -39,21 +39,36 @@ function renderSnippets() {
   const btn = document.getElementById('load-more-btn');
   container.innerHTML = '';
 
-  // If not expanded, only show top 3. If expanded, show all.
   const displayPosts = isExpanded ? allPosts : allPosts.slice(0, 3);
 
   displayPosts.forEach(post => {
     const el = document.createElement('div');
     el.className = 'terminal-card fade-in';
+    // Adding a 'data-tilt' attribute if you want the snippets to tilt too
+    el.setAttribute('data-tilt', ''); 
     el.innerHTML = `
+      <div class="card-header">
+        <span class="platform">CODE_SNIPPET</span>
+        <span class="date">${post.date}</span>
+      </div>
       <h4>> ${post.title}</h4>
-      <div class="small" style="color: var(--text-muted); margin-bottom: 8px;">${post.date}</div>
       <pre><code>${post.code}</code></pre>
     `;
     container.appendChild(el);
   });
 
-  btn.textContent = isExpanded ? "Collapse Terminal" : "Expand Terminal (View All)";
+  // Toggle button text and active class for the arrow animation
+  btn.textContent = isExpanded ? "Minimize Archive" : "Expand Full Terminal";
+  if (isExpanded) btn.classList.add('active');
+  else btn.classList.remove('active');
+
+  // CRITICAL: Re-initialize Tilt for new elements
+  VanillaTilt.init(document.querySelectorAll(".terminal-card"), {
+    max: 5,
+    speed: 400,
+    glare: true,
+    "max-glare": 0.1
+  });
 }
 
 function buildSocialNav(platforms) {
