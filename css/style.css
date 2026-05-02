@@ -182,6 +182,36 @@ h1 {
   margin-bottom: 20px;
   font-family: 'JetBrains Mono', monospace;
 }
+
+.terminal-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.terminal-card {
+  transition: all 0.4s ease;
+  animation: slideUp 0.5s ease forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Ensure the code blocks don't break the layout when many are shown */
+.terminal-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-height: 80vh; /* Optional: adds a scrollbar to the terminal section itself */
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+/* Custom Scrollbar for the Terminal */
+.terminal-grid::-webkit-scrollbar { width: 6px; }
+.terminal-grid::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 10px; }
 .terminal-card h4 { color: var(--accent); margin-bottom: 10px; }
 .terminal-card pre { color: #e6edf3; font-size: 0.85rem; overflow-x: auto; }
 

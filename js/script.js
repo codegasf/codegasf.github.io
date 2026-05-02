@@ -2,6 +2,8 @@
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
+let allPosts = []; 
+let isExpanded = false;
 // ==========================================
 // 1. CONFIG & DATA FETCHING
 // ==========================================
@@ -13,11 +15,11 @@ async function loadData() {
     ]);
     
     const config = await configRes.json();
-    const posts = await postsRes.json();
+    allPosts = await postsRes.json(); 
     
     buildSocialNav(config.socialPlatforms);
     buildSocialPosts(config.featuredSocialPosts);
-    buildCodeSnippets(posts);
+    renderSnippets();
     
     // Initialize 3D Tilt on newly created elements
     VanillaTilt.init(document.querySelectorAll(".post-card"), {
@@ -30,6 +32,28 @@ async function loadData() {
   } catch (error) {
     console.error("Failed to load JSON data:", error);
   }
+}
+
+function renderSnippets() {
+  const container = document.getElementById('code-container');
+  const btn = document.getElementById('load-more-btn');
+  container.innerHTML = '';
+
+  // If not expanded, only show top 3. If expanded, show all.
+  const displayPosts = isExpanded ? allPosts : allPosts.slice(0, 3);
+
+  displayPosts.forEach(post => {
+    const el = document.createElement('div');
+    el.className = 'terminal-card fade-in';
+    el.innerHTML = `
+      <h4>> ${post.title}</h4>
+      <div class="small" style="color: var(--text-muted); margin-bottom: 8px;">${post.date}</div>
+      <pre><code>${post.code}</code></pre>
+    `;
+    container.appendChild(el);
+  });
+
+  btn.textContent = isExpanded ? "Collapse Terminal" : "Expand Terminal (View All)";
 }
 
 function buildSocialNav(platforms) {
@@ -183,4 +207,14 @@ function init3DBackground() {
 document.addEventListener("DOMContentLoaded", () => {
   loadData();
   init3DBackground();
+});
+
+// Event listener for the button
+document.getElementById('load-more-btn').addEventListener('click', () => {
+  isExpanded = !isExpanded;
+  renderSnippets();
+  // Scroll to the new content if expanding
+  if(isExpanded) {
+    document.querySelector('.code-snippets').scrollIntoView({ behavior: 'smooth' });
+  }
 });
