@@ -1,32 +1,112 @@
 [
-    {
-      "id": 1,
-      "title": "Building a Slack Bot for Kubernetes",
-      "excerpt": "Create a Slack slash-command bot to manage K8s pods using Flask and kubectl. Perfect for DevOps teams.",
-      "tags": ["devops", "slack", "kubernetes"],
-      "date": "2025-10-10",
-      "code": "# Verify Slack signature in Flask\nfrom flask import Flask, request\nimport hmac, hashlib, time\n\napp = Flask(__name__)\nSLACK_SIGNING_SECRET = 'your-secret'\n\ndef verify_slack(req):\n    timestamp = req.headers.get('X-Slack-Request-Timestamp', '0')\n    if abs(time.time() - int(timestamp)) > 300: return False\n    sig_basestring = f\"v0:{timestamp}:{req.get_data(as_text=True)}\"\n    my_sig = 'v0=' + hmac.new(SLACK_SIGNING_SECRET.encode(), sig_basestring.encode(), hashlib.sha256).hexdigest()\n    return hmac.compare_digest(my_sig, req.headers.get('X-Slack-Signature', ''))\n\n@app.route('/slack/events', methods=['POST'])\ndef slack_events():\n    if not verify_slack(request): return 'Invalid', 403\n    # Handle your logic here\n    return 'OK'",
-      "lang": "python",
-      "link": "#"
-    },
-    {
-      "id": 2,
-      "title": "Terraform Best Practices for Beginners",
-      "excerpt": "Organize your infra code with modules, CI/CD, and a clean repo structure.",
-      "tags": ["terraform", "infra", "aws"],
-      "date": "2025-09-25",
-      "code": "# modules/network/main.tf\nresource \"aws_vpc\" \"main\" {\n  cidr_block = var.cidr_block\n  tags = { Name = var.name }\n}\n\nvariable \"cidr_block\" { type = string }\nvariable \"name\" { type = string }",
-      "lang": "hcl",
-      "link": "#"
-    },
-    {
-      "id": 3,
-      "title": "Vanilla JS Game Loop Essentials",
-      "excerpt": "Master the basics of game loops, input handling, and rendering in pure JavaScript.",
-      "tags": ["gaming", "javascript", "gamedev"],
-      "date": "2025-09-15",
-      "code": "const canvas = document.getElementById('gameCanvas');\nconst ctx = canvas.getContext('2d');\nlet lastTime = performance.now();\n\nfunction gameLoop(currentTime) {\n  const deltaTime = (currentTime - lastTime) / 1000;\n  update(deltaTime);  // Update game state\n  render(ctx);        // Render frame\n  lastTime = currentTime;\n  requestAnimationFrame(gameLoop);\n}\n\nrequestAnimationFrame(gameLoop);",
-      "lang": "javascript",
-      "link": "#"
-    }
-  ]
+  {
+    "id": 11,
+    "title": "Local LLM Inference with Ollama",
+    "excerpt": "Run DeepSeek-R1 or Llama 3 locally for private, secure AI workflows.",
+    "tags": ["ai", "python", "llm"],
+    "date": "2026-05-02",
+    "code": "import requests\n\ndef ask_local_ai(prompt):\n    response = requests.post('http://localhost:11434/api/generate', \n                             json={'model': 'deepseek-r1', 'prompt': prompt})\n    return response.json()['response']\n\nprint(ask_local_ai('Explain quantum computing like I am five.'))",
+    "lang": "python",
+    "link": "#"
+  },
+  {
+    "id": 10,
+    "title": "AI Image Generation via API",
+    "excerpt": "Using Stable Diffusion or DALL-E 3 APIs to generate gaming assets dynamically.",
+    "tags": ["ai", "gamedev", "api"],
+    "date": "2026-04-28",
+    "code": "const generateAsset = async (desc) => {\n  const res = await fetch('https://api.openai.com/v1/images/generations', {\n    method: 'POST',\n    headers: { 'Authorization': `Bearer ${API_KEY}`, 'Content-Type': 'application/json' },\n    body: JSON.stringify({ prompt: `Game sprite: ${desc}`, n: 1, size: '512x512' })\n  });\n  return await res.json();\n};",
+    "lang": "javascript",
+    "link": "#"
+  },
+  {
+    "id": 9,
+    "title": "Vector Databases for RAG",
+    "excerpt": "Implementing Pinecone or Milvus to give your AI long-term memory.",
+    "tags": ["ai", "database", "python"],
+    "date": "2026-04-20",
+    "code": "from pinecone import Pinecone\n\npc = Pinecone(api_key='YOUR_API_KEY')\nindex = pc.Index('codegasf-ai-index')\n\nindex.upsert(vectors=[('vec1', [0.1, 0.2, 0.3], {'metadata': 'coding-tips'})])",
+    "lang": "python",
+    "link": "#"
+  },
+  {
+    "id": 8,
+    "title": "React Three Fiber: 3D Game UI",
+    "excerpt": "Creating interactive 3D menus for web-based games using R3F.",
+    "tags": ["gamedev", "react", "threejs"],
+    "date": "2026-04-15",
+    "code": "import { Canvas } from '@react-three/fiber'\n\nfunction MenuBox() {\n  return (\n    <mesh rotation={[10, 10, 0]}>\n      <boxGeometry args={[2, 2, 2]} />\n      <meshStandardMaterial color=\"hotpink\" wireframe />\n    </mesh>\n  )\n}\n\nexport default () => <Canvas><MenuBox /></Canvas>",
+    "lang": "javascript",
+    "link": "#"
+  },
+  {
+    "id": 7,
+    "title": "Rust for High-Performance Systems",
+    "excerpt": "Why memory safety and speed make Rust the choice for modern backend tech.",
+    "tags": ["rust", "backend", "performance"],
+    "date": "2026-04-05",
+    "code": "fn main() {\n    let codegasf = \"Advanced Tech\";\n    println!(\"Leveling up with {}: safety first!\", codegasf);\n    \n    let mut data = vec![1, 2, 3];\n    data.push(4);\n    println!(\"Vector capacity: {}\", data.capacity());\n}",
+    "lang": "rust",
+    "link": "#"
+  },
+  {
+    "id": 6,
+    "title": "Dockerizing a Next.js App",
+    "excerpt": "Containerize your modern web apps for seamless cloud deployment.",
+    "tags": ["docker", "devops", "nextjs"],
+    "date": "2026-03-28",
+    "code": "FROM node:18-alpine\nWORKDIR /app\nCOPY package*.json ./\nRUN npm install\nCOPY . .\nRUN npm run build\nEXPOSE 3000\nCMD [\"npm\", \"start\"]",
+    "lang": "dockerfile",
+    "link": "#"
+  },
+  {
+    "id": 5,
+    "title": "Tailwind CSS: Neumorphic Buttons",
+    "excerpt": "Creating the soft-UI look using utility-first CSS classes.",
+    "tags": ["css", "ui", "design"],
+    "date": "2026-03-15",
+    "code": "<button class=\"bg-gray-200 shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] \n               rounded-xl px-8 py-4 text-gray-700 active:shadow-inner\">\n  Codegasf Click\n</button>",
+    "lang": "html",
+    "link": "#"
+  },
+  {
+    "id": 4,
+    "title": "GitHub Actions: Automated Testing",
+    "excerpt": "Run your test suite automatically on every pull request.",
+    "tags": ["github", "devops", "automation"],
+    "date": "2026-03-01",
+    "code": "name: Node.js CI\non: [push, pull_request]\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n    - uses: actions/checkout@v4\n    - name: Use Node.js\n      uses: actions/setup-node@v4\n    - run: npm ci\n    - run: npm test",
+    "lang": "yaml",
+    "link": "#"
+  },
+  {
+    "id": 1,
+    "title": "Building a Slack Bot for Kubernetes",
+    "excerpt": "Create a Slack slash-command bot to manage K8s pods using Flask and kubectl. Perfect for DevOps teams.",
+    "tags": ["devops", "slack", "kubernetes"],
+    "date": "2025-10-10",
+    "code": "# Verify Slack signature in Flask\nfrom flask import Flask, request\nimport hmac, hashlib, time\n\napp = Flask(__name__)\nSLACK_SIGNING_SECRET = 'your-secret'\n\ndef verify_slack(req):\n    timestamp = req.headers.get('X-Slack-Request-Timestamp', '0')\n    if abs(time.time() - int(timestamp)) > 300: return False\n    sig_basestring = f\"v0:{timestamp}:{req.get_data(as_text=True)}\"\n    my_sig = 'v0=' + hmac.new(SLACK_SIGNING_SECRET.encode(), sig_basestring.encode(), hashlib.sha256).hexdigest()\n    return hmac.compare_digest(my_sig, req.headers.get('X-Slack-Signature', ''))",
+    "lang": "python",
+    "link": "#"
+  },
+  {
+    "id": 2,
+    "title": "Terraform Best Practices for Beginners",
+    "excerpt": "Organize your infra code with modules, CI/CD, and a clean repo structure.",
+    "tags": ["terraform", "infra", "aws"],
+    "date": "2025-09-25",
+    "code": "# modules/network/main.tf\nresource \"aws_vpc\" \"main\" {\n  cidr_block = var.cidr_block\n  tags = { Name = var.name }\n}\n\nvariable \"cidr_block\" { type = string }\nvariable \"name\" { type = string }",
+    "lang": "hcl",
+    "link": "#"
+  },
+  {
+    "id": 3,
+    "title": "Vanilla JS Game Loop Essentials",
+    "excerpt": "Master the basics of game loops, input handling, and rendering in pure JavaScript.",
+    "tags": ["gaming", "javascript", "gamedev"],
+    "date": "2025-09-15",
+    "code": "const canvas = document.getElementById('gameCanvas');\nconst ctx = canvas.getContext('2d');\nlet lastTime = performance.now();\n\nfunction gameLoop(currentTime) {\n  const deltaTime = (currentTime - lastTime) / 1000;\n  update(deltaTime);  // Update game state\n  render(ctx);        // Render frame\n  lastTime = currentTime;\n  requestAnimationFrame(gameLoop);\n}",
+    "lang": "javascript",
+    "link": "#"
+  }
+]
